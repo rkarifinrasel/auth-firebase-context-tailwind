@@ -1,12 +1,17 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from './Provider/AuthProviders';
 import { Result } from 'postcss';
 
 const Register = () => {
+    const [error,setError]=useState('')
+const[success,setSuccess]=useState('')
+    
     const{user,createUser}=useContext(AuthContext)
     const handleRegister=event=>{
         event.preventDefault()
+        setError()
+        setSuccess()
         const form=event.target;
         const name=form.name.value;
         const email=form.email.value;
@@ -16,10 +21,12 @@ const Register = () => {
         .then(result=>{
             const eUser=result.user;
             console.log(eUser)
+            
             form.reset()
         })
         .catch(error=>{
             console.log(error.message)
+            setError(error.message)
 
         })
     }
@@ -57,6 +64,8 @@ const Register = () => {
                 <button className="btn btn-primary">Register</button>
               </div>
             </form>
+<p>{error}</p>
+<p>{success}</p>
           </div>
         </div>
       </div>
